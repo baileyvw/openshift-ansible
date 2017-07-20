@@ -1,0 +1,40 @@
+[OSEv3:children]
+masters
+nodes
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user=ansible
+#ansible_ssh_user=root
+
+# If ansible_ssh_user is not root, ansible_sudo must be set to true
+ansible_sudo=true
+
+product_type=openshift
+deployment_type=origin
+#deployment_type=enterprise
+
+# uncomment the following to enable htpasswd authentication; defaults to DenyAllPasswordIdentityProvider
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/openshift/openshift-passwd'}]
+
+containerized=true
+openshift_release=v1.5
+openshift_image_tag=v1.5.0
+openshift_master_cluster_hostname=bail.devops.dev.dns-direct.org.uk
+openshift_master_cluster_public_hostname=bail.devops.dev.dns-direct.org.uk
+openshift_master_default_subdomain=apps.bail.devops.dev.dns-direct.org.uk
+
+
+# host group for masters
+[master]
+bail.devops.dev.dns-direct.org.uk
+#master.example.com
+
+# host group for nodes, includes region info
+[node]
+droid.devops.dev.dns-direct.org.uk
+bail.devops.dev.dns-direct.org.uk
+#master.example.com openshift_node_labels="{'region': 'infra', 'zone': 'default'}"
+#node1.example.com openshift_node_labels="{'region': 'primary', 'zone': 'east'}"
+#node2.example.com openshift_node_labels="{'region': 'primary', 'zone': 'west'}"
